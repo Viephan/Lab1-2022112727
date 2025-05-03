@@ -228,11 +228,13 @@ public class Graph {
         final double epsilon = 1e-6;
         int N = allNodeSet.size();
 
+        // 初始化 PageRank 值
         Map<String, Double> pr = new HashMap<>();
         for (String node : allNodeSet) {
             pr.put(node, 1.0 / N);
         }
 
+        // 构建每个节点的入边节点集合
         Map<String, Set<String>> incoming = new HashMap<>();
         for (String node : allNodeSet) {
             incoming.put(node, new HashSet<>());
@@ -243,19 +245,37 @@ public class Graph {
             }
         }
 
+        // ✅ 打印指向该节点的节点集合，调试用
+        System.out.println("Incoming nodes pointing to \"" + word + "\": " + incoming.get(word));
+
+        // 开始迭代
         for (int iter = 0; iter < maxIterations; iter++) {
             Map<String, Double> newPr = new HashMap<>();
+
+            // ✅ Step 1: 计算所有 dangling nodes（出度为0）的 PageRank 总和
+            double danglingSum = 0.0;
+            for (String node : allNodeSet) {
+                if (!adjList.containsKey(node) || adjList.get(node).isEmpty()) {
+                    danglingSum += pr.get(node);
+                }
+            }
+
+            // Step 2: 更新每个节点的新 PR 值
             for (String node : allNodeSet) {
                 double sum = 0.0;
+
                 for (String v : incoming.get(node)) {
                     int outDegree = adjList.get(v).size();
                     if (outDegree > 0) {
                         sum += pr.get(v) / outDegree;
                     }
                 }
-                newPr.put(node, (1 - d) / N + d * sum);
+
+                double danglingContribution = danglingSum / N;
+                newPr.put(node, (1 - d) / N + d * (sum + danglingContribution));
             }
 
+            // Step 3: 检查是否收敛
             double delta = 0.0;
             for (String node : allNodeSet) {
                 delta += Math.abs(pr.get(node) - newPr.get(node));
@@ -267,6 +287,7 @@ public class Graph {
 
         return pr.getOrDefault(word, 0.0);
     }
+
 
     public String randomWalk() {
         if (adjList.isEmpty()) return "图为空，无法执行随机游走！";
