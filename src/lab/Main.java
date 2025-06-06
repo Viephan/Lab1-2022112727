@@ -2,73 +2,73 @@ package lab;
 
 import java.util.Scanner;
 
-//Ò»¸ö²âÊÔĞŞ¸Ä
+//ä¸€ä¸ªæµ‹è¯•ä¿®æ”¹
 
 public class Main {
     public static void main(String[] args) {
         Graph graph = new Graph();
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("ÇëÊäÈëÎÄ±¾ÎÄ¼şÂ·¾¶£º");
+        System.out.println("è¯·è¾“å…¥æ–‡æœ¬æ–‡ä»¶è·¯å¾„ï¼š");
         String filePath = scanner.nextLine();
         graph.buildGraphFromFile(filePath);
 
         while (true) {
-            System.out.println("\nÇëÑ¡Ôñ¹¦ÄÜ£º");
-            System.out.println("1. ÏÔÊ¾ÓĞÏòÍ¼");
-            System.out.println("2. ²éÑ¯ÇÅ½Ó´Ê");
-            System.out.println("3. Éú³ÉĞÂÎÄ±¾");
-            System.out.println("4. ¼ÆËã×î¶ÌÂ·¾¶");
-            System.out.println("5. ¼ÆËãPageRank");
-            System.out.println("6. Ëæ»úÓÎ×ß");
-            System.out.println("7. µ¼³öÍ¼ÏñÎªPNG");
-            System.out.println("0. ÍË³ö");
+            System.out.println("\nè¯·é€‰æ‹©åŠŸèƒ½ï¼š");
+            System.out.println("1. æ˜¾ç¤ºæœ‰å‘å›¾");
+            System.out.println("2. æŸ¥è¯¢æ¡¥æ¥è¯");
+            System.out.println("3. ç”Ÿæˆæ–°æ–‡æœ¬");
+            System.out.println("4. è®¡ç®—æœ€çŸ­è·¯å¾„");
+            System.out.println("5. è®¡ç®—PageRank");
+            System.out.println("6. éšæœºæ¸¸èµ°");
+            System.out.println("7. å¯¼å‡ºå›¾åƒä¸ºPNG");
+            System.out.println("0. é€€å‡º");
 
             int choice;
             try {
                 choice = Integer.parseInt(scanner.nextLine());
             } catch (NumberFormatException e) {
-                System.out.println("ÊäÈëÎŞĞ§£¬ÇëÊäÈëÊı×Ö¡£");
+                System.out.println("è¾“å…¥æ— æ•ˆï¼Œè¯·è¾“å…¥æ•°å­—ã€‚");
                 continue;
             }
 
             switch (choice) {
                 case 1 -> graph.showDirectedGraph();
                 case 2 -> {
-                    System.out.print("ÊäÈë word1: ");
+                    System.out.print("è¾“å…¥ word1: ");
                     String word1 = scanner.nextLine();
-                    System.out.print("ÊäÈë word2: ");
+                    System.out.print("è¾“å…¥ word2: ");
                     String word2 = scanner.nextLine();
                     System.out.println(graph.queryBridgeWords(word1, word2));
                 }
                 case 3 -> {
-                    System.out.print("ÊäÈëĞÂÎÄ±¾£º");
+                    System.out.print("è¾“å…¥æ–°æ–‡æœ¬ï¼š");
                     String newText = scanner.nextLine();
                     System.out.println(graph.generateNewText(newText));
                 }
                 case 4 -> {
-                    System.out.print("ÊäÈëÆğÊ¼µ¥´Ê£º");
+                    System.out.print("è¾“å…¥èµ·å§‹å•è¯ï¼š");
                     String word1 = scanner.nextLine();
-                    System.out.print("ÊäÈëÄ¿±êµ¥´Ê£º");
+                    System.out.print("è¾“å…¥ç›®æ ‡å•è¯ï¼š");
                     String word2 = scanner.nextLine();
                     System.out.println(graph.calcShortestPath(word1, word2));
                 }
                 case 5 -> {
-                    System.out.print("ÊäÈëµ¥´Ê£º");
+                    System.out.print("è¾“å…¥å•è¯ï¼š");
                     String word = scanner.nextLine();
                     System.out.println("PageRank = " + graph.calPageRank(word));
                 }
                 case 6 -> System.out.println(graph.randomWalk());
                 case 7 -> {
-                    System.out.print("ÇëÊäÈëÍ¼ÏñÊä³öÂ·¾¶£¨Èç output.png£©£º");
+                    System.out.print("è¯·è¾“å…¥å›¾åƒè¾“å‡ºè·¯å¾„ï¼ˆå¦‚ output.pngï¼‰ï¼š");
                     String outputPath = scanner.nextLine();
                     graph.exportDirectedGraphImage(outputPath);
                 }
                 case 0 -> {
-                    System.out.println("³ÌĞòÍË³ö");
+                    System.out.println("ç¨‹åºé€€å‡º");
                     return;
                 }
-                default -> System.out.println("ÊäÈë´íÎó£¬ÇëÖØĞÂÑ¡Ôñ£¡");
+                default -> System.out.println("è¾“å…¥é”™è¯¯ï¼Œè¯·é‡æ–°é€‰æ‹©ï¼");
             }
         }
     }

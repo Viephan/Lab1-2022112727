@@ -9,14 +9,17 @@ import java.util.*;
 public class Graph {
     private Map<String, Map<String, Integer>> adjList = new HashMap<>();
     private Set<String> allNodes = new HashSet<>();
+    private List<String> wordSequence = new ArrayList<>();  // 存储原始词序列
 
     public void buildGraphFromFile(String filePath) {
         try (Scanner scanner = new Scanner(new File(filePath))) {
+            wordSequence.clear();
             List<String> words = new ArrayList<>();
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine().toLowerCase().replaceAll("[^a-zA-Z\\s]", " ");
                 words.addAll(Arrays.asList(line.trim().split("\\s+")));
             }
+
             for (int i = 0; i < words.size() - 1; i++) {
                 String from = words.get(i);
                 String to = words.get(i + 1);
@@ -29,6 +32,8 @@ public class Graph {
                 allNodes.add(from);
                 allNodes.add(to);
             }
+
+            wordSequence.addAll(words);
             System.out.println("图构建完成，节点数：" + allNodes.size());
         } catch (Exception e) {
             System.out.println("读取文件出错: " + e.getMessage());
@@ -86,22 +91,23 @@ public class Graph {
         word1 = word1.toLowerCase();
         word2 = word2.toLowerCase();
 
-        if (!adjList.containsKey(word1)) {
-            if (!adjList.containsKey(word2)) {
+        Set<String> allWords = new HashSet<>(wordSequence);
+        if (!allWords.contains(word1)) {
+            if (!allWords.contains(word2)) {
                 return "No \"" + word1 + "\" and \"" + word2 + "\" in the graph!";
             }
             return "No \"" + word1 + "\" in the graph!";
         }
-        if (!adjList.containsKey(word2)) {
+        if (!allWords.contains(word2)) {
             return "No \"" + word2 + "\" in the graph!";
         }
 
         Set<String> bridgeWords = new HashSet<>();
-        Map<String, Integer> nextFromWord1 = adjList.get(word1);
-
-        for (String mid : nextFromWord1.keySet()) {
-            Map<String, Integer> nextFromMid = adjList.get(mid);
-            if (nextFromMid != null && nextFromMid.containsKey(word2)) {
+        for (int i = 0; i < wordSequence.size() - 2; i++) {
+            String w1 = wordSequence.get(i);
+            String mid = wordSequence.get(i + 1);
+            String w2 = wordSequence.get(i + 2);
+            if (w1.equals(word1) && w2.equals(word2)) {
                 bridgeWords.add(mid);
             }
         }
@@ -114,10 +120,10 @@ public class Graph {
         if (bridgeList.size() == 1) {
             return "The bridge word from \"" + word1 + "\" to \"" + word2 + "\" is: \"" + bridgeList.get(0) + "\".";
         } else {
-            return "The bridge words from \"" + word1 + "\" to \"" + word2 + "\" are: " +
-                    String.join(", ", bridgeList) + ".";
+            return "The bridge words from \"" + word1 + "\" to \"" + word2 + "\" are: " + String.join(", ", bridgeList) + ".";
         }
     }
+
 
     public String generateNewText(String inputText) {
         inputText = inputText.toLowerCase().replaceAll("[^a-zA-Z\\s]", " ");
@@ -204,8 +210,7 @@ public class Graph {
             path.add(0, at);
         }
 
-        return "Shortest path from \"" + word1 + "\" to \"" + word2 + "\":\n" +
-                String.join(" -> ", path) + "\nPath weight = " + dist.get(word2);
+        return "Shortest path from \"" + word1 + "\" to \"" + word2 + "\":\n" + String.join(" -> ", path) + "\nPath weight = " + dist.get(word2);
     }
 
     public Double calPageRank(String word) {
@@ -327,4 +332,3 @@ public class Graph {
         return "随机游走结果：\n" + walkResult.toString();
     }
 }
-
