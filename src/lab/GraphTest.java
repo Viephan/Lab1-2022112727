@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+=======
+package lab;
+
+>>>>>>> origin/Lab3w
 import lab.Graph;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -6,6 +11,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+<<<<<<< HEAD
+=======
+import static org.junit.jupiter.api.Assertions.assertEquals;
+>>>>>>> origin/Lab3w
 
 public class GraphTest {
 
@@ -50,10 +59,17 @@ public class GraphTest {
         assertEquals("No \"yyy\" in the graph!", result);
     }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/Lab3w
     @Test
     public void testBothWordsNotExist() {
         String result = graph.queryBridgeWords("unknown", "mystery");
         assertEquals("No \"unknown\" and \"mystery\" in the graph!", result);
     }
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/Lab3w

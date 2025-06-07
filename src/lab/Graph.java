@@ -128,12 +128,18 @@ public class Graph {
     public String generateNewText(String inputText) {
         inputText = inputText.toLowerCase().replaceAll("[^a-zA-Z\\s]", " ");
         String[] words = inputText.trim().split("\\s+");
+<<<<<<< HEAD
 
         if (words.length < 2) return inputText;
 
         StringBuilder result = new StringBuilder();
         Random rand = new Random();
 
+=======
+        if (words.length < 2) return inputText;
+        StringBuilder result = new StringBuilder();
+        Random rand = new Random();
+>>>>>>> origin/Lab3w
         for (int i = 0; i < words.length - 1; i++) {
             String word1 = words[i];
             String word2 = words[i + 1];

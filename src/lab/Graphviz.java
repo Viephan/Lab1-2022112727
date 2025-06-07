@@ -257,4 +257,8 @@ public class Graphviz
         this.graph = sb;
     }
 
+<<<<<<< HEAD
 } // end of class GraphViz
+=======
+} // end of class GraphViz
+>>>>>>> origin/Lab3w
